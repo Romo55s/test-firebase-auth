@@ -1,16 +1,10 @@
 import { Injectable } from '@angular/core';
 import { User } from '../shared/student';
-
-import {
-  AngularFireDatabase,
-  AngularFireList,
-  AngularFireObject,
-} from '@angular/fire/compat/database';
+import { AngularFireDatabase, AngularFireList, AngularFireObject, QueryFn } from '@angular/fire/compat/database';
 
 @Injectable({
   providedIn: 'root',
 })
-
 export class CrudService {
   UsersRef: AngularFireList<any>;
   UserRef: AngularFireObject<any>;
@@ -20,49 +14,56 @@ export class CrudService {
       console.log(data);
     });
   }
-  
 
-  // Create Student
+  // Create User
   AddUser(user: User) {
-    this.UsersRef.push({
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      mobileNumber: user.mobileNumber,
-      checkIn: user.checkIn,
-      checkOut: user.checkOut,
-      persons: user.persons
-    });
+    this.UsersRef.push(user);
   }
 
-  // Fetch Single Student Object
+  // Fetch Single User Object
   GetUser(id: string) {
     this.UserRef = this.db.object('users-list/' + id);
     return this.UserRef;
   }
 
-  // Fetch Students List
+  // Fetch Users List
   GetUsersList() {
     this.UsersRef = this.db.list('users-list');
     return this.UsersRef;
   }
 
-  // Update Student Object
-  UpdateUser(user:User) {
-    this.UserRef.update({
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      mobileNumber: user.mobileNumber,
-      checkIn: user.checkIn,
-      checkOut: user.checkOut,
-      persons: user.persons
-    });
+  // Update User Object
+  UpdateUser(user: User) {
+    this.UserRef.update(user);
   }
 
-  // Delete Student Object
+  // Delete User Object
   DeleteUser(id: string) {
     this.UserRef = this.db.object('users-list/' + id);
     this.UserRef.remove();
+  }
+
+  // Consulta por nombre
+GetUsersByFullName(firstName: string) {
+  const queryFn: QueryFn = (ref) =>
+    ref.orderByChild('firstName').equalTo(firstName);
+  this.UsersRef = this.db.list('users-list', queryFn);
+  return this.UsersRef.valueChanges();
+}
+
+  // Consulta por fecha de entrada
+  GetUsersByCheckInDate(checkInDate: string) {
+    // Crea una función de consulta para filtrar por fecha de entrada
+    const queryFn: QueryFn = (ref) => ref.orderByChild('checkIn').equalTo(checkInDate);
+    this.UsersRef = this.db.list('users-list', queryFn);
+    return this.UsersRef.valueChanges();
+  }
+
+  // Consulta por número de personas
+  GetUsersByPersonsCount(personsCount: number) {
+    // Crea una función de consulta para filtrar por número de personas
+    const queryFn: QueryFn = (ref) => ref.orderByChild('persons').equalTo(personsCount);
+    this.UsersRef = this.db.list('users-list', queryFn);
+    return this.UsersRef.valueChanges();
   }
 }

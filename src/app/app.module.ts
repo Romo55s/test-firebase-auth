@@ -19,6 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { QueriesComponent } from './queries/queries.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     AddStudentComponent,
     EditStudentComponent,
     StudentListComponent,
+    QueriesComponent,
   ],
   imports: [
     BrowserModule,
