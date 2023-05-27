@@ -1,5 +1,5 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { CrudService } from '../shared/crud.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
@@ -24,10 +24,10 @@ export class EditStudentComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.updateStudentData();
+    this.updateUserData();
     const id = this.actRoute.snapshot.paramMap.get('id');
     this.crudApi
-      .GetStudent(id)
+      .GetUser(id)
       .valueChanges()
       .subscribe((data) => {
         this.editForm.setValue(data);
@@ -50,7 +50,19 @@ export class EditStudentComponent implements OnInit {
     return this.editForm.get('mobileNumber');
   }
 
-  updateStudentData() {
+  get checkIn() {
+    return this.editForm.get('checkIn');
+  }
+
+  get checkOut() {
+    return this.editForm.get('checkOut');
+  }
+
+  get persons() {
+    return this.editForm.get('persons');
+  }
+
+  updateUserData() {
     this.editForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.minLength(2)]],
       lastName: [''],
@@ -62,7 +74,22 @@ export class EditStudentComponent implements OnInit {
         ],
       ],
       mobileNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+      checkIn: ['', [Validators.required, this.validateCheckInDate]],
+      checkOut: ['', [Validators.required, this.validateCheckOutDate]],
+      persons: ['', [Validators.required, Validators.min(1)]],
     });
+  }
+
+  validateCheckInDate(control: FormControl) {
+    const selectedDate = new Date(control.value);
+    const currentDate = new Date();
+    return selectedDate > currentDate ? null : { invalidCheckInDate: true };
+  }
+
+  validateCheckOutDate(control: FormControl) {
+    const selectedDate = new Date(control.value);
+    const currentDate = new Date();
+    return selectedDate > currentDate ? null : { invalidCheckOutDate: true };
   }
 
   goBack() {
@@ -70,7 +97,7 @@ export class EditStudentComponent implements OnInit {
   }
 
   updateForm() {
-    this.crudApi.UpdateStudent(this.editForm.value);
+    this.crudApi.UpdateUser(this.editForm.value);
     this.toastr.success(
       this.editForm.controls['firstName'].value + ' updated successfully'
     );

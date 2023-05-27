@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CrudService } from '../shared/crud.service';
-import { Student } from './../shared/student';
+import { User } from './../shared/student';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -8,10 +8,9 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './student-list.component.html',
   styleUrls: ['./student-list.component.scss'],
 })
-
 export class StudentListComponent implements OnInit {
   p: number = 1;
-  Student: Student[];
+  user: User[];
   hideWhenNoStudent: boolean = false;
   noData: boolean = false;
   preLoader: boolean = true;
@@ -20,37 +19,33 @@ export class StudentListComponent implements OnInit {
 
   ngOnInit() {
     this.dataState();
-    let s = this.crudApi.GetStudentsList();
-    s.snapshotChanges().subscribe((data) => {
-      this.Student = [];
+    this.crudApi.GetUsersList().snapshotChanges().subscribe((data) => {
+      this.user = [];
       data.forEach((item) => {
         let a = item.payload.toJSON();
         a['$key'] = item.key;
-        this.Student.push(a as Student);
+        this.user.push(a as User);
       });
     });
   }
 
   dataState() {
-    this.crudApi
-      .GetStudentsList()
-      .valueChanges()
-      .subscribe((data) => {
-        this.preLoader = false;
-        if (data.length <= 0) {
-          this.hideWhenNoStudent = false;
-          this.noData = true;
-        } else {
-          this.hideWhenNoStudent = true;
-          this.noData = false;
-        }
-      });
+    this.crudApi.GetUsersList().valueChanges().subscribe((data) => {
+      this.preLoader = false;
+      if (data.length <= 0) {
+        this.hideWhenNoStudent = false;
+        this.noData = true;
+      } else {
+        this.hideWhenNoStudent = true;
+        this.noData = false;
+      }
+    });
   }
 
-  deleteStudent(student) {
-    if (window.confirm('Are sure you want to delete this student ?')) {
-      this.crudApi.DeleteStudent(student.$key);
-      this.toastr.success(student.firstName + ' successfully deleted!');
+  deleteUser(user) {
+    if (window.confirm('Are you sure you want to delete this student?')) {
+      this.crudApi.DeleteUser(user.$key);
+      this.toastr.success(user.firstName + ' successfully deleted!');
     }
   }
 }

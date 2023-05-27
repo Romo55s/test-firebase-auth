@@ -8,9 +8,8 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './add-student.component.html',
   styleUrls: ['./add-student.component.scss'],
 })
-
 export class AddStudentComponent implements OnInit {
-  public studentForm: FormGroup;
+  public userForm: FormGroup;
 
   constructor(
     public crudApi: CrudService,
@@ -19,12 +18,12 @@ export class AddStudentComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.crudApi.GetStudentsList();
-    this.studenForm();
+    this.crudApi.GetUsersList();
+    this.uForm();
   }
 
-  studenForm() {
-    this.studentForm = this.fb.group({
+  uForm() {
+    this.userForm = this.fb.group({
       firstName: ['', [Validators.required, Validators.minLength(2)]],
       lastName: [''],
       email: [
@@ -35,33 +34,60 @@ export class AddStudentComponent implements OnInit {
         ],
       ],
       mobileNumber: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+      checkIn: ['', [Validators.required]],
+      checkOut: ['', [Validators.required]],
+      persons: ['', [Validators.required, Validators.min(1)]],
     });
   }
 
+  getCurrentDate(): string {
+    const today = new Date();
+    const day = today.getDate();
+    const month = today.getMonth() + 1; // January is 0
+    const year = today.getFullYear();
+
+    const dayString = day < 10 ? '0' + day : day.toString();
+    const monthString = month < 10 ? '0' + month : month.toString();
+
+    return `${year}-${monthString}-${dayString}`;
+  }
+
   get firstName() {
-    return this.studentForm.get('firstName');
+    return this.userForm.get('firstName');
   }
 
   get lastName() {
-    return this.studentForm.get('lastName');
+    return this.userForm.get('lastName');
   }
 
   get email() {
-    return this.studentForm.get('email');
+    return this.userForm.get('email');
   }
 
   get mobileNumber() {
-    return this.studentForm.get('mobileNumber');
+    return this.userForm.get('mobileNumber');
+  }
+
+  get checkIn() {
+    return this.userForm.get('checkIn');
+  }
+
+  get checkOut() {
+    return this.userForm.get('checkOut');
+  }
+
+  get persons() {
+    return this.userForm.get('persons');
   }
 
   ResetForm() {
-    this.studentForm.reset();
+    this.userForm.reset();
   }
 
-  submitStudentData() {
-    this.crudApi.AddStudent(this.studentForm.value);
+  submitUserData() {
+    this.crudApi.AddUser(this.userForm.value);
     this.toastr.success(
-      this.studentForm.controls['firstName'].value + ' successfully added!'
+      this.userForm.controls['firstName'].value + ' successfully added!'
     );
     this.ResetForm();
   }

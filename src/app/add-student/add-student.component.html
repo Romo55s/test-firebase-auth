@@ -1,8 +1,8 @@
 <div class="pt-3 pb-2 mb-3 border-bottom">
-  <h2 class="h2">Add Student</h2>
+  <h2 class="h2">Add User</h2>
 </div>
 
-<form [formGroup]="studentForm" (ngSubmit)="submitStudentData()" novalidate>
+<form [formGroup]="userForm" (ngSubmit)="submitUserData()" novalidate>
   <div class="row">
     <div class="col-lg-5 col-md-12 col-sm-12">
       <div class="row">
@@ -17,7 +17,7 @@
 
           <!-- errors-->
           <p *ngIf="firstName.touched && firstName.invalid" class="error">
-            <sup>*</sup>Please enter atleast first name
+            <sup>*</sup>Please enter at least first name
           </p>
           <p *ngIf="firstName.errors?.['minlength']" class="error">
             <sup>*</sup>Name shouldn't be less than 2 words
@@ -63,7 +63,57 @@
             <sup>*</sup>Please provide contact number
           </p>
           <p *ngIf="mobileNumber.errors?.['pattern']" class="error">
-            <sup>*</sup>Use numbers only number
+            <sup>*</sup>Use numbers only
+          </p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 mb-3">
+          <label>Check-In</label>
+          <input
+            type="date"
+            formControlName="checkIn"
+            class="form-control"
+            required
+            [min]="getCurrentDate()"
+          />
+
+          <!-- errors-->
+          <p *ngIf="checkIn.touched && checkIn.invalid" class="error">
+            <sup>*</sup>Please select a valid Check-In date
+          </p>
+        </div>
+
+        <div class="col-md-12 mb-3">
+          <label>Check-Out</label>
+          <input
+            type="date"
+            formControlName="checkOut"
+            class="form-control"
+            required
+            [min]="userForm.get('checkIn').value"
+          />
+
+          <!-- errors-->
+          <p *ngIf="checkOut.touched && checkOut.invalid" class="error">
+            <sup>*</sup>Please select a valid Check-Out date
+          </p>
+        </div>
+
+        <div class="col-md-12 mb-3">
+          <label>Persons</label>
+          <input
+            type="number"
+            formControlName="persons"
+            class="form-control"
+            required
+            min="1"
+          />
+
+          <!-- errors-->
+          <p *ngIf="persons.touched && persons.invalid" class="error">
+            <sup>*</sup>Please select at least 1 person
           </p>
         </div>
       </div>
@@ -79,9 +129,9 @@
         <button
           type="submit"
           class="btn btn-success"
-          [disabled]="!studentForm.valid"
+          [disabled]="!userForm.valid"
         >
-          Add Student
+          Add User
         </button>
       </div>
     </div>

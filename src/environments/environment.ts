@@ -1,12 +1,12 @@
 export const environment = {
   production: false,
   firebaseConfig: {
-    apiKey: "xxxxxx-xxxxxx_xxxxxxxxxxxxxxxxxx",
-    authDomain: "xxxxxx_xxxxxxxxxxxxxxxxxx",
-    databaseURL: "xxxxxx_xxxxxxxxxxxxxxxxxx",
-    projectId: "xxxxxx_xxxxxxxxxxxxxxxxxx",
-    storageBucket: "xxxxxx_xxxxxxxxxxxxxxxxxx",
-    messagingSenderId: "xxxxxxxxxxxxxxxxxx",
-    appId: "1:xxxxxxxxxxxxxxxxxx:web:xxxxxxxxxxxxxxxxxx"
+    apiKey: "AIzaSyBkyYzflxqwTaYAjWVhu7i_4AauN0ZS8Mg",
+  authDomain: "reservaciones-adf27.firebaseapp.com",
+  projectId: "reservaciones-adf27",
+  storageBucket: "reservaciones-adf27.appspot.com",
+  messagingSenderId: "268825628920",
+  appId: "1:268825628920:web:7312e147059ed23f3f6b0d",
+  measurementId: "G-FVPDBQF2FZ"
   }
 };

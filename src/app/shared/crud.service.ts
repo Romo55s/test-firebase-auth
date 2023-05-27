@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Student } from '../shared/student';
+import { User } from '../shared/student';
 
 import {
   AngularFireDatabase,
@@ -12,46 +12,57 @@ import {
 })
 
 export class CrudService {
-  studentsRef: AngularFireList<any>;
-  studentRef: AngularFireObject<any>;
+  UsersRef: AngularFireList<any>;
+  UserRef: AngularFireObject<any>;
 
-  constructor(private db: AngularFireDatabase) {}
+  constructor(private db: AngularFireDatabase) {
+    this.db.object('/').valueChanges().subscribe((data) => {
+      console.log(data);
+    });
+  }
+  
 
   // Create Student
-  AddStudent(student: Student) {
-    this.studentsRef.push({
-      firstName: student.firstName,
-      lastName: student.lastName,
-      email: student.email,
-      mobileNumber: student.mobileNumber,
+  AddUser(user: User) {
+    this.UsersRef.push({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      mobileNumber: user.mobileNumber,
+      checkIn: user.checkIn,
+      checkOut: user.checkOut,
+      persons: user.persons
     });
   }
 
   // Fetch Single Student Object
-  GetStudent(id: string) {
-    this.studentRef = this.db.object('students-list/' + id);
-    return this.studentRef;
+  GetUser(id: string) {
+    this.UserRef = this.db.object('users-list/' + id);
+    return this.UserRef;
   }
 
   // Fetch Students List
-  GetStudentsList() {
-    this.studentsRef = this.db.list('students-list');
-    return this.studentsRef;
+  GetUsersList() {
+    this.UsersRef = this.db.list('users-list');
+    return this.UsersRef;
   }
 
   // Update Student Object
-  UpdateStudent(student: Student) {
-    this.studentRef.update({
-      firstName: student.firstName,
-      lastName: student.lastName,
-      email: student.email,
-      mobileNumber: student.mobileNumber,
+  UpdateUser(user:User) {
+    this.UserRef.update({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      mobileNumber: user.mobileNumber,
+      checkIn: user.checkIn,
+      checkOut: user.checkOut,
+      persons: user.persons
     });
   }
 
   // Delete Student Object
-  DeleteStudent(id: string) {
-    this.studentRef = this.db.object('students-list/' + id);
-    this.studentRef.remove();
+  DeleteUser(id: string) {
+    this.UserRef = this.db.object('users-list/' + id);
+    this.UserRef.remove();
   }
 }
