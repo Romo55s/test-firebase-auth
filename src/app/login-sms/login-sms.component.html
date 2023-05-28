@@ -10,7 +10,9 @@
     </div>
     <div class="mt-4">
       <button class="btn btn-primary btn-block" (click)="sendCode(phoneNumber.value)">Send code</button>
-      <button class="btn btn-primary btn-block" (click)="checkCode(code.value)">Verify and Sign In</button>
+    </div>
+    <div class="mt-4 p-4">
+        <button class="btn btn-primary btn-block" (click)="checkCode(code.value)">Verify and Sign In</button>
     </div>
     <div id="recaptcha-container"></div>
   </form>

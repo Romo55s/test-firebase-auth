@@ -17,8 +17,11 @@ export class AppComponent implements OnInit {
       // Verificar si el usuario está autenticado y si tiene el correo electrónico de administrador
       if (user && user.email && user.email.toLowerCase() === 'admin@gmail.com') {
         this.isAdminLoggedIn = true;
+        console.log(this.isAdminLoggedIn);
+        console.log("I'm admin");
       } else {
         this.isAdminLoggedIn = false;
+        console.log("I'm not admin");
       }
     });
   }

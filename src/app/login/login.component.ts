@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../shared/user.service';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -9,18 +10,26 @@ import 'firebase/compat/auth';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  loginForm: FormGroup;
 
-  constructor(private auth:UserService) { }
-
-  ngOnInit(): void {
+  constructor(private auth:UserService, private formBuilder: FormBuilder) { 
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    });
   }
 
-  async login(user:string, pass: string){
-    try {
-      await this.auth.login(user,pass);
-    } catch (e: any) {
-      alert(e.message)
-    }
+  ngOnInit() {
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    });
   }
+  OnSumbitlogin(){
+    const email = this.loginForm.value.email;
+    const password = this.loginForm.value.password;
 
+    this.auth.login(email, password);
+  }
 }
+
