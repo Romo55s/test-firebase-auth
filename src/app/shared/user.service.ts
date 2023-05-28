@@ -60,7 +60,7 @@ export class UserService{
     logOut(){
         return this.auth.signOut()
         .then(resp =>{
-            this.toastr.success(
+            this.toastr.warning(
                 'LogOut successfuly'
             );
         });

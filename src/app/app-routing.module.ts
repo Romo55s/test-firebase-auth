@@ -13,32 +13,24 @@ import { MainComponent } from './main/main.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/main' },
-  {
-    path: 'main',
-    component: MainComponent,
-    canActivate: [AuthGuard]
-  },
+  { path: 'main', component: MainComponent },
+  { path: 'login', component: LoginComponent },
   {
     path: 'register-student',
-    component: AddStudentComponent,
-    canActivate: [AuthGuard]
+    component: AddStudentComponent,canActivate: [AuthGuard]
   },
   {
     path: 'view-students',
-    component: StudentListComponent,
-    canActivate: [AuthGuard]
+    component: StudentListComponent,canActivate: [AuthGuard]
   },
   {
     path: 'edit-student/:id',
-    component: EditStudentComponent,
-    canActivate: [AuthGuard]
+    component: EditStudentComponent,canActivate: [AuthGuard]
   },
   {
     path: 'queries',
-    component: QueriesComponent,
-    canActivate: [AuthGuard]
+    component: QueriesComponent,canActivate: [AuthGuard]
   },
-  { path: 'login', component: LoginComponent },
   {
     path: 'login-sms', component: LoginSmsComponent,
   },

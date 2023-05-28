@@ -14,8 +14,16 @@ export class AuthGuard implements CanActivate {
     return this.afAuth.authState.pipe(
       map(user => {
         if (user) {
-          // Usuario autenticado, permitir acceso
-          return true;
+          // Usuario autenticado
+          if (user.email && user.email.toLowerCase() === 'admin@gmail.com') {
+            // Usuario administrador, permitir acceso total
+            console.log("Admin dentro");
+            return true;
+          } else {
+            // Usuario no administrador, permitir acceso solo a la ruta principal
+            this.router.navigate(['/main']);
+            return false;
+          }
         } else {
           // Usuario no autenticado, redirigir a la página de inicio de sesión
           this.router.navigate(['/login']);

@@ -6,10 +6,7 @@
   <ul class="navbar-nav px-3">
     <li class="nav-item text-nowrap">
       <a class="nav-link" routerLink="/register-student">
-        <span
-          class="user-image"
-          
-        ></span>
+        <span class="user-image"></span>
         Hello Admin
       </a>
     </li>
@@ -19,34 +16,22 @@
 <!-- Sidebar navigation -->
 <div class="container-fluid">
   <div class="row">
-    <nav class="col-md-2 d-md-block bg-light sidebar">
+    <nav class="col-md-2 d-md-block bg-light sidebar" *ngIf="isAdminLoggedIn">
       <div class="sidebar-sticky">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a
-              class="nav-link"
-              routerLink="/register-student"
-              routerLinkActive="active"
-            >
+            <a class="nav-link" routerLink="/register-student" routerLinkActive="active">
               Add User
             </a>
           </li>
 
           <li class="nav-item">
-            <a
-              class="nav-link"
-              routerLink="/view-students"
-              routerLinkActive="active"
-            >
+            <a class="nav-link" routerLink="/view-students" routerLinkActive="active">
               Users List
             </a>
           </li>
           <li class="nav-item">
-            <a
-              class="nav-link"
-              routerLink="/queries"
-              routerLinkActive="active"
-            >
+            <a class="nav-link" routerLink="/queries" routerLinkActive="active">
               User queries
             </a>
           </li>
