@@ -6,14 +6,43 @@ import { StudentListComponent } from './student-list/student-list.component';
 import { EditStudentComponent } from './edit-student/edit-student.component';
 import { QueriesComponent } from './queries/queries.component';
 import { LoginComponent } from './login/login.component';
+import { LoginSmsComponent } from './login-sms/login-sms.component';
+import { RegisterComponent } from './register/register.component';
+import { AuthGuard } from './auth.guard';
+import { MainComponent } from './main/main.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '', pathMatch: 'full', redirectTo: '/main' },
+  {
+    path: 'main',
+    component: MainComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'register-student',
+    component: AddStudentComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'view-students',
+    component: StudentListComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'edit-student/:id',
+    component: EditStudentComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'queries',
+    component: QueriesComponent,
+    canActivate: [AuthGuard]
+  },
   { path: 'login', component: LoginComponent },
-  { path: 'register-student', component: AddStudentComponent },
-  { path: 'view-students', component: StudentListComponent },
-  { path: 'edit-student/:id', component: EditStudentComponent },
-  { path: 'queries', component: QueriesComponent },
+  {
+    path: 'login-sms', component: LoginSmsComponent,
+  },
+  { path: 'register', component: RegisterComponent },
 ];
 
 @NgModule({
@@ -21,4 +50,4 @@ const routes: Routes = [
   exports: [RouterModule],
   declarations: [],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

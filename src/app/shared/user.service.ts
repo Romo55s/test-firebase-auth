@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { error } from 'console';
+import { Router } from '@angular/router';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
+import { ToastrService } from 'ngx-toastr';
 
 declare global {
     interface Window{
@@ -18,7 +19,7 @@ declare global {
 
 export class UserService{
     
-    constructor(private auth: AngularFireAuth) {
+    constructor(private auth: AngularFireAuth, private router: Router, private toastr: ToastrService) {
         auth.authState.subscribe(user =>{
             console.log(user);
         })
@@ -26,17 +27,43 @@ export class UserService{
 
     // Login de usuario
     login(user: string, pass: string){
-        return this.auth.signInWithEmailAndPassword(user,pass);
+        return this.auth.signInWithEmailAndPassword(user,pass)
+        .then(res => {
+            console.log(res);
+            this.toastr.success(
+                'Login successfuly'
+            );
+            this.router.navigate(['/main']);
+        }).catch(e =>{
+            this.toastr.error(
+                'Invalid Data'
+            );
+            console.log(e)
+        });
     }
 
     // Registro de usuario
     register(user: string, pass: string){
-        return this.auth.createUserWithEmailAndPassword(user,pass);
+        return this.auth.createUserWithEmailAndPassword(user,pass) 
+        .then(res => {
+            console.log(res);
+            this.router.navigate(['/login']);
+        }).catch(e =>{
+            this.toastr.error(
+                'Invalid Data'
+            );
+            console.log(e)
+        });
     }
 
     // LogOut del usuario
     logOut(){
-        return this.auth.signOut();
+        return this.auth.signOut()
+        .then(resp =>{
+            this.toastr.success(
+                'LogOut successfuly'
+            );
+        });
     }
 
     // Envio del codigo
@@ -44,8 +71,13 @@ export class UserService{
         return this.auth.signInWithPhoneNumber(phoneNumber, appVerified)
         .then(resp =>{
             window.confirmationResult = resp;
-            alert("All good!");
+            this.toastr.success(
+                'Code Sended...'
+            );
         }).catch(error =>{
+            this.toastr.error(
+                'Bad News, something went wrong...'
+            );
             console.log(error);
         });
     }
@@ -54,8 +86,12 @@ export class UserService{
     checkCode(code: string){
         return window.confirmationResult.confirm(code)
         .then((res: any) =>{
-            let license = firebase.auth.PhoneAuthProvider.credential(window.confirmationResult, code); // Guardamos la confirmacion para enviarla a FireBase
+            let license = firebase.auth.PhoneAuthProvider.credential(window.confirmationResult.verificationId, code); // Guardamos la confirmacion para enviarla a FireBase
             this.auth.signInWithCredential(license); // Logeo con el codigo
+            this.router.navigate(['/main']);
+        }).catch(error =>{
+            console.log(error);
+            alert("Someting went wrong...");
         })
     }
 }

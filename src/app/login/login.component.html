@@ -1,13 +1,21 @@
-<div>
-    <h1>Login</h1>
-    <input placeholder="User" type="text" #user>
-    <input placeholder="Pass" type="password" #pass>
-    <input placeholder="PhoneNumber" type="text" #phoneNumber>
-    <input placeholder="Code" type="text" #code>
-    <button (click)="login(user.value, pass.value)">Entrar</button>
-    <button (click)="register(user.value, pass.value)">Register</button>
-    <button (click)="auth.logOut()">Salir</button>
-    <button (click)="sendCode(phoneNumber.value)">Send code</button>
-    <button (click)="checkCode(code.value)">Verify and Sing In</button>
-    <div id="recaptcha-container"></div>
-</div>
+<div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="text-center">
+      <h1>Login</h1>
+      <div class="form-group p-3">
+        <input class="form-control" placeholder="Email" type="text" #user>
+      </div>
+      <div class="form-group p-3">
+        <input class="form-control" placeholder="Password" type="password" #pass>
+      </div>
+      <div class="btn-group">
+        <button class="btn btn-primary btn-padding" (click)="login(user.value, pass.value)">Entrar</button>
+      </div>
+      <div class="mt-3">
+        <a class="btn btn-primary btn-padding" routerLink="/login-sms">Login With SMS</a>
+      </div>
+      <div class="mt-3">
+        <a class="btn btn-primary btn-padding" routerLink="/register">Register Account</a>
+      </div>
+    </div>
+  </div>
+  

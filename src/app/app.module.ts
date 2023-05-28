@@ -21,6 +21,9 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { QueriesComponent } from './queries/queries.component';
 import { LoginComponent } from './login/login.component';
+import { LoginSmsComponent } from './login-sms/login-sms.component';
+import { RegisterComponent } from './register/register.component';
+import { MainComponent } from './main/main.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +33,9 @@ import { LoginComponent } from './login/login.component';
     StudentListComponent,
     QueriesComponent,
     LoginComponent,
+    LoginSmsComponent,
+    RegisterComponent,
+    MainComponent,
   ],
   imports: [
     BrowserModule,
