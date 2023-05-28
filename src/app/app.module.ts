@@ -20,6 +20,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { QueriesComponent } from './queries/queries.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { QueriesComponent } from './queries/queries.component';
     EditStudentComponent,
     StudentListComponent,
     QueriesComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

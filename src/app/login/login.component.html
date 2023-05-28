@@ -1,0 +1,13 @@
+<div>
+    <h1>Login</h1>
+    <input placeholder="User" type="text" #user>
+    <input placeholder="Pass" type="password" #pass>
+    <input placeholder="PhoneNumber" type="text" #phoneNumber>
+    <input placeholder="Code" type="text" #code>
+    <button (click)="login(user.value, pass.value)">Entrar</button>
+    <button (click)="register(user.value, pass.value)">Register</button>
+    <button (click)="auth.logOut()">Salir</button>
+    <button (click)="sendCode(phoneNumber.value)">Send code</button>
+    <button (click)="checkCode(code.value)">Verify and Sing In</button>
+    <div id="recaptcha-container"></div>
+</div>
