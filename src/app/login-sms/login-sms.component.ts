@@ -27,11 +27,6 @@ export class LoginSmsComponent implements OnInit {
     }, 200);
   }
 
-  OnSumbitlogin() {
-    const phoneNumber = this.loginForm.value.phoneNumber;
-    this.sendCode(phoneNumber);
-  }
-
   captchaCreator() {
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
     window.recaptchaVerifier.render();
@@ -42,6 +37,11 @@ export class LoginSmsComponent implements OnInit {
       // Después de enviar el código, muestra el botón "Verify and Sign In"
       this.showVerifyButton = true;
     });
+  }
+
+  onClickCheckSend(){
+    const phoneNumber = this.loginForm.value.phoneNumber;
+    this.sendCode(phoneNumber);
   }
 
   onClickCheck() {
