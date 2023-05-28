@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit} from '@angular/core';
 import { UserService } from '../shared/user.service';
 import 'firebase/compat/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -9,6 +9,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+
+  @Input() loggedIn: boolean;
   loginForm: FormGroup;
 
   constructor(private auth:UserService, private formBuilder: FormBuilder) { 
@@ -21,11 +23,22 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
   
-  OnSumbitlogin(){
+  OnSumbitlogin() {
     const email = this.loginForm.value.email;
     const password = this.loginForm.value.password;
 
+    this.auth.loggedIn.subscribe(loggedIn => {
+      if (loggedIn) {
+        console.log(loggedIn + " bien");
+      } else {
+        this.loginForm.reset();
+        console.log(loggedIn + " mal");
+      }
+    });
+    
     this.auth.login(email, password);
+
   }
+  
 }
 

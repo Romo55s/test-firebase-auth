@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import firebase from 'firebase/compat/app';
@@ -18,7 +18,7 @@ declare global {
 })
 
 export class UserService{
-    
+    @Output() loggedIn: EventEmitter<boolean> = new EventEmitter<boolean>();
     constructor(private auth: AngularFireAuth, private router: Router, private toastr: ToastrService) {
         auth.authState.subscribe(user =>{
             console.log(user);
@@ -33,8 +33,10 @@ export class UserService{
             this.toastr.success(
                 'Login successfuly'
             );
+            this.loggedIn.emit(true);
             this.router.navigate(['/main']);
         }).catch(e =>{
+            this.loggedIn.emit(false);
             this.toastr.error(
                 'Invalid Data'
             );
