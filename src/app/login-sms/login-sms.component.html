@@ -1,19 +1,27 @@
-<form>
-    <div class="form-group">
-        <h1>Login With SMS</h1>
-      <label for="phoneNumber">Phone Number</label>
-      <input class="form-control" id="phoneNumber" placeholder="PhoneNumber" type="text" #phoneNumber>
+<div class="container">
+  <div class="column login">
+    <h1>Login With SMS</h1>
+    <form [formGroup]="loginForm" (ngSubmit)="OnSumbitlogin()">
+      <div *ngIf="!showVerifyButton">
+        <div class="input-container">
+          <input class="input-login" placeholder=" " type="text" formControlName="phoneNumber">
+          <label class="label-container">Enter your Phone Number</label>
+        </div>
+        <button class="submit-button" type="submit">Send code</button>
+      </div>
+      <div *ngIf="showVerifyButton">
+        <div class="input-container">
+          <input class="input-login" placeholder=" " type="text" formControlName="code">
+          <label class="label-container">Insert your Code</label>
+        </div>
+        <button class="login-sms-cont" type="submit" (click)="onClickCheck()">Verify and Sign In</button>
+      </div>
+    </form>
+    <div class="recap-sty" id="recaptcha-container"></div>
+    <div class="mt-3">
+      <label> Don't have an account?
+        <a class="sign-up" routerLink="/register">Sign up</a> </label>
     </div>
-    <div class="form-group">
-      <label for="code">Code</label>
-      <input class="form-control" id="code" placeholder="Code" type="text" #code>
-    </div>
-    <div class="mt-4">
-      <button class="btn btn-primary btn-block" (click)="sendCode(phoneNumber.value)">Send code</button>
-    </div>
-    <div class="mt-4 p-4">
-        <button class="btn btn-primary btn-block" (click)="checkCode(code.value)">Verify and Sign In</button>
-    </div>
-    <div id="recaptcha-container"></div>
-  </form>
-  
+  </div>
+  <div class="column image"></div>
+</div>

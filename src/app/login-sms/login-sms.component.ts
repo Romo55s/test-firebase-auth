@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../shared/user.service';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login-sms',
@@ -10,25 +11,45 @@ import 'firebase/compat/auth';
 })
 export class LoginSmsComponent implements OnInit {
 
-  constructor(private auth:UserService) { }
+  loginForm: FormGroup;
+  showVerifyButton: boolean = false;
+
+  constructor(private auth: UserService, private formBuilder: FormBuilder) {
+    this.loginForm = this.formBuilder.group({
+      phoneNumber: ['', [Validators.required, Validators.pattern('^[0-9+]+$')]],
+      code: ['', Validators.required]
+    });
+  }
 
   ngOnInit(): void {
     setTimeout(() => {
-      this.captchaCreator()
+      this.captchaCreator();
     }, 200);
   }
 
-  captchaCreator(){
+  OnSumbitlogin() {
+    const phoneNumber = this.loginForm.value.phoneNumber;
+    this.sendCode(phoneNumber);
+  }
+
+  captchaCreator() {
     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
     window.recaptchaVerifier.render();
   }
 
-  sendCode(phoneNumber: string){
-    this.auth.sendCode(phoneNumber, window.recaptchaVerifier);
+  sendCode(phoneNumber: string) {
+    this.auth.sendCode(phoneNumber, window.recaptchaVerifier).then(() => {
+      // Después de enviar el código, muestra el botón "Verify and Sign In"
+      this.showVerifyButton = true;
+    });
   }
 
-  checkCode(code: string){
-    this.auth.checkCode(code);
+  onClickCheck() {
+    const code = this.loginForm.value.code;
+    this.checkCode(code);
   }
 
+  checkCode(code: string) {
+    this.auth.checkCode(code); // Aquí debes realizar la lógica para verificar el código
+  }
 }

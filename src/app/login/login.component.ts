@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../shared/user.service';
-import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -20,11 +19,8 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
-    });
   }
+  
   OnSumbitlogin(){
     const email = this.loginForm.value.email;
     const password = this.loginForm.value.password;

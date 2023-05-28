@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../shared/user.service';
-import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -10,18 +10,24 @@ import 'firebase/compat/auth';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
+  
+  registerForm : FormGroup;
 
-  constructor(private auth:UserService) { }
+  constructor(private auth:UserService, private formBuilder: FormBuilder) { 
+    this.registerForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    });
+  }
 
   ngOnInit(): void {
   }
 
-  async register(user:string, pass: string){
-    try {
-      await this.auth.register(user,pass);
-    } catch (e: any) {
-      alert(e.message)
-    }
+  OnSumbitRegister(){
+    const email = this.registerForm.value.email;
+    const password = this.registerForm.value.password;
+
+    this.auth.register(email, password);
   }
 
 }

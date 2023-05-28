@@ -47,6 +47,9 @@ export class UserService{
         return this.auth.createUserWithEmailAndPassword(user,pass) 
         .then(res => {
             console.log(res);
+            this.toastr.success(
+                'Register successfuly'
+            );
             this.router.navigate(['/login']);
         }).catch(e =>{
             this.toastr.error(
@@ -88,6 +91,9 @@ export class UserService{
         .then((res: any) =>{
             let license = firebase.auth.PhoneAuthProvider.credential(window.confirmationResult.verificationId, code); // Guardamos la confirmacion para enviarla a FireBase
             this.auth.signInWithCredential(license); // Logeo con el codigo
+            this.toastr.success(
+                'Sing In Accepted'
+            );
             this.router.navigate(['/main']);
         }).catch(error =>{
             console.log(error);
