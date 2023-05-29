@@ -13,7 +13,7 @@ import { MainComponent } from './main/main.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/main' },
-  { path: 'main', component: MainComponent },
+  { path: 'main', component: MainComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   {
     path: 'register-student',
